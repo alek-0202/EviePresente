@@ -1,0 +1,95 @@
+.page {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: clamp(19rem, 50vw, 28rem);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  color: #fff0cf;
+  text-align: center;
+}
+
+.calm {
+  background: linear-gradient(180deg, #34495c, #5a4a65);
+}
+
+.dramatic {
+  background: linear-gradient(180deg, #39263c, #6d3d4a);
+}
+
+.mysterious {
+  background: linear-gradient(180deg, #263847, #39405d);
+}
+
+.triumphant {
+  background: linear-gradient(180deg, #4b4660, #8a6656);
+}
+
+.comic {
+  background: linear-gradient(180deg, #563057, #9f5d65);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  border: 4px solid #2d263b;
+  color: #2d263b;
+  background: #f5c77f;
+  box-shadow:
+    5px 5px 0 rgba(23, 18, 34, 0.55),
+    inset 0 0 0 4px #ffe9a8;
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.kicker {
+  margin: 0 0 0.65rem;
+  color: #ffd99c;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.page h2 {
+  max-width: 19ch;
+  margin: 0;
+  color: #fff6dd;
+  font-size: clamp(1.45rem, 4vw, 2.7rem);
+  line-height: 1.05;
+  text-shadow: 0 4px 0 rgba(31, 22, 38, 0.7);
+}
+
+.text {
+  max-width: 37rem;
+  margin: 1.1rem 0 0;
+  color: #ffe6bf;
+  font-size: clamp(1rem, 2vw, 1.22rem);
+  line-height: 1.7;
+}
+
+.punchline {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+  padding: 0.9rem;
+  border: 4px solid #ffe6aa;
+  color: #2d263b;
+  background: #ffdc87;
+  box-shadow: 6px 6px 0 #2b2134;
+  font-weight: 900;
+}
+
+.punchline strong {
+  color: #7e2d43;
+  font-size: clamp(1.4rem, 4vw, 2.5rem);
+}
+
+@media (max-width: 540px) {
+  .page {
+    min-height: 24rem;
+    padding: 1rem;
+  }
+}

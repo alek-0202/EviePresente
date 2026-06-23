@@ -1,0 +1,128 @@
+.finalPage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: clamp(19rem, 50vw, 28rem);
+  overflow: hidden;
+  padding: clamp(1.3rem, 4vw, 2.6rem);
+  color: #fff2d1;
+  text-align: center;
+  background:
+    linear-gradient(180deg, rgba(36, 30, 54, 0.4), rgba(104, 70, 82, 0.62)),
+    #302840;
+}
+
+.sky {
+  position: absolute;
+  inset: 0;
+  opacity: 0.9;
+}
+
+.finalStar {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 6px;
+  height: 6px;
+  background: #ffe49c;
+  box-shadow:
+    8px 0 0 #ffe49c,
+    0 8px 0 #ffe49c,
+    8px 8px 0 #ffb6a2;
+  animation: pop 900ms steps(2, end) both, twinkle 1.8s steps(2, end) infinite;
+  animation-delay: var(--delay), calc(var(--delay) + 900ms);
+}
+
+.seal {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  margin-bottom: 1rem;
+  border: 4px solid #ffe8aa;
+  color: #302840;
+  background: #f5b67d;
+  box-shadow:
+    6px 6px 0 #6e3f57,
+    inset 0 0 0 5px #ffdfa3;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+
+.kicker,
+.madeBy {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.finalPage h2,
+.finalPage p,
+.actions,
+.madeBy {
+  position: relative;
+  z-index: 1;
+}
+
+.finalPage h2 {
+  max-width: 16ch;
+  margin: 0.5rem 0 0;
+  color: #fff6dd;
+  font-size: clamp(1.7rem, 4vw, 2.8rem);
+  line-height: 1.05;
+}
+
+.finalPage p:not(.kicker) {
+  max-width: 32rem;
+  margin: 1rem 0 1.25rem;
+  color: #ffe9bd;
+  font-size: clamp(0.98rem, 2vw, 1.18rem);
+  line-height: 1.65;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.madeBy {
+  margin-top: 1rem;
+  color: #f9c897;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes twinkle {
+  50% {
+    opacity: 0.45;
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 540px) {
+  .finalPage {
+    min-height: 23rem;
+    padding: 1.1rem;
+  }
+}

@@ -1,0 +1,195 @@
+.storyArea {
+  display: grid;
+  width: min(100%, 66rem);
+  place-items: center;
+  gap: 1rem;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  animation: storyIn 440ms steps(5, end) both;
+}
+
+.topActions,
+.controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.book {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(100%, 58rem);
+  grid-template-columns: minmax(5rem, 0.36fr) minmax(0, 1fr);
+  border: 5px solid #292234;
+  background: #4a3653;
+  box-shadow:
+    0 14px 0 #171222,
+    12px 20px 0 rgba(18, 14, 25, 0.28),
+    inset 0 0 0 4px #7b5665;
+}
+
+.cover {
+  position: relative;
+  display: grid;
+  min-height: clamp(19rem, 50vw, 28rem);
+  place-items: center;
+  overflow: hidden;
+  border-right: 5px solid #292234;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 16px, rgba(255, 232, 170, 0.08) 16px 20px),
+    #6f4d62;
+  box-shadow: inset -9px 0 0 #2f263b;
+}
+
+.cover::before {
+  position: absolute;
+  inset: 1rem;
+  border: 3px solid #f1c48b;
+  content: "";
+}
+
+.cover span {
+  max-width: 12ch;
+  color: #ffe8aa;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+  text-shadow: 0 4px 0 #2b2134;
+  transform: rotate(-4deg);
+}
+
+.pageShell {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: #282638;
+}
+
+.pageShell::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  box-shadow:
+    inset 10px 0 0 rgba(26, 18, 34, 0.28),
+    inset -6px -6px 0 rgba(21, 16, 30, 0.35),
+    inset 0 0 0 5px rgba(255, 241, 200, 0.22);
+}
+
+.pagePixels {
+  position: absolute;
+  inset: 1rem;
+  z-index: 2;
+  border: 3px dashed rgba(255, 232, 170, 0.2);
+  pointer-events: none;
+}
+
+.pageTurn {
+  position: relative;
+  z-index: 1;
+}
+
+.pageTurn.next {
+  animation: turnNext 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.pageTurn.previous {
+  animation: turnPrevious 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.empty {
+  display: grid;
+  min-height: clamp(19rem, 50vw, 28rem);
+  place-items: center;
+  padding: 2rem;
+  color: #ffe6aa;
+  text-align: center;
+}
+
+.pageIndicator {
+  display: grid;
+  min-width: 4.3rem;
+  min-height: 2.55rem;
+  place-items: center;
+  border: 3px solid #2d263b;
+  color: #fff3d0;
+  background: #392e47;
+  box-shadow:
+    0 4px 0 #171222,
+    inset 0 0 0 2px #69536b;
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+@keyframes storyIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes turnNext {
+  from {
+    opacity: 0;
+    transform: translateX(18px) skewY(-1deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) skewY(0);
+  }
+}
+
+@keyframes turnPrevious {
+  from {
+    opacity: 0;
+    transform: translateX(-18px) skewY(1deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) skewY(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .book {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+  }
+
+  .cover {
+    min-height: 24rem;
+  }
+
+  .cover span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+}
+
+@media (max-width: 460px) {
+  .storyArea {
+    padding-inline: 0;
+  }
+
+  .book {
+    width: 100%;
+    border-width: 4px;
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+  }
+
+  .cover {
+    min-height: 25rem;
+  }
+}
