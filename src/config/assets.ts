@@ -1,7 +1,9 @@
+import { publicAssetPath } from "../utils/publicAsset";
+
 export const characterAssets = {
-  eviePixelPath: "/assets/characters/evie-pixel.png",
+  eviePixelPath: publicAssetPath("assets/characters/evie-pixel.png"),
 };
 
 export const avatarAssets = {
-  defaultAvatarPath: "/assets/avatars/default-avatar.png",
+  defaultAvatarPath: publicAssetPath("assets/avatars/default-avatar.png"),
 };

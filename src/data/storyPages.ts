@@ -1,3 +1,5 @@
+import { publicAssetPath } from "../utils/publicAsset";
+
 export type StoryMood = "calm" | "dramatic" | "mysterious" | "triumphant" | "comic";
 
 export type StoryChoice = {
@@ -37,7 +39,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Evie",
       role: "protagonista com fome",
-      avatarUrl: "/assets/characters/evie-pixel.png",
+      avatarUrl: publicAssetPath("assets/characters/evie-pixel.png"),
     },
     choices: [
       {
@@ -66,7 +68,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Dix",
       role: "oráculo do caos carinhoso",
-      avatarUrl: "/assets/avatars/Dix.png",
+      avatarUrl: publicAssetPath("assets/avatars/Dix.png"),
     },
     choices: [
       {
@@ -96,7 +98,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Caio",
       role: "guardião do tutorial competitivo",
-      avatarUrl: "/assets/avatars/caio.png",
+      avatarUrl: publicAssetPath("assets/avatars/caio.png"),
     },
     choices: [
       {
@@ -125,7 +127,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Yuri",
       role: "profeta da frase final",
-      avatarUrl: "/assets/avatars/yuri.png",
+      avatarUrl: publicAssetPath("assets/avatars/yuri.png"),
     },
     choices: [
       {
@@ -154,7 +156,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Crita",
       role: "suporte internacional da jornada",
-      avatarUrl: "/assets/avatars/crita.png",
+      avatarUrl: publicAssetPath("assets/avatars/crita.png"),
     },
     choices: [
       {
@@ -183,7 +185,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Nabinho",
       role: "mercador de recursos questionáveis",
-      avatarUrl: "/assets/avatars/nabinho.png",
+      avatarUrl: publicAssetPath("assets/avatars/nabinho.png"),
     },
     choices: [
       {
@@ -212,7 +214,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Pori",
       role: "cartógrafo do guardanapo",
-      avatarUrl: "/assets/avatars/pori.png",
+      avatarUrl: publicAssetPath("assets/avatars/pori.png"),
     },
     choices: [
       {
@@ -241,7 +243,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Gabriela",
       role: "decifradora de placas urbanas",
-      avatarUrl: "/assets/avatars/gabriela.png",
+      avatarUrl: publicAssetPath("assets/avatars/gabriela.png"),
     },
     choices: [
       {
@@ -270,7 +272,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Dioguinho",
       role: "sentinela do cruzamento",
-      avatarUrl: "/assets/avatars/dioguinho.png",
+      avatarUrl: publicAssetPath("assets/avatars/dioguinho.png"),
     },
     choices: [
       {
@@ -299,7 +301,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Alex",
       role: "narrador atrasado e cúmplice",
-      avatarUrl: "/assets/avatars/alex.png",
+      avatarUrl: publicAssetPath("assets/avatars/alex.png"),
     },
     choices: [
       {
@@ -328,7 +330,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Dix",
       role: "comentarista do encontro canino",
-      avatarUrl: "/assets/avatars/Dix.png",
+      avatarUrl: publicAssetPath("assets/avatars/Dix.png"),
     },
     choices: [
       {
@@ -357,7 +359,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Caio",
       role: "analista de decisões perigosas",
-      avatarUrl: "/assets/avatars/caio.png",
+      avatarUrl: publicAssetPath("assets/avatars/caio.png"),
     },
     choices: [
       {
@@ -386,7 +388,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Yuri",
       role: "profeta insistente do carboidrato",
-      avatarUrl: "/assets/avatars/yuri.png",
+      avatarUrl: publicAssetPath("assets/avatars/yuri.png"),
     },
     choices: [
       {
@@ -415,7 +417,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Crita",
       role: "suporte antes do chefão",
-      avatarUrl: "/assets/avatars/crita.png",
+      avatarUrl: publicAssetPath("assets/avatars/crita.png"),
     },
     choices: [
       {
@@ -472,7 +474,7 @@ export const storyPages: StoryPageData[] = [
     character: {
       name: "Evie",
       role: "heroína da panificadora",
-      avatarUrl: "/assets/characters/evie-pixel.png",
+      avatarUrl: publicAssetPath("assets/characters/evie-pixel.png"),
     },
     choices: [
       {
