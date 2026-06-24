@@ -30,9 +30,28 @@ type AppView = "intro" | "book" | "memories" | "story";
 export default function App() {
   const [view, setView] = useState<AppView>("intro");
 
+  function goToHome() {
+    setView("intro");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   return (
     <main className={styles.app}>
       <AudioToggle />
+      {view !== "intro" ? (
+        <button
+          className={styles.homeButton}
+          type="button"
+          aria-label="Voltar para o início"
+          title="Voltar para o início"
+          onClick={goToHome}
+        >
+          <span className={styles.homeIcon} aria-hidden="true">
+            <span />
+          </span>
+          <span>início</span>
+        </button>
+      ) : null}
       <div className={styles.pixelSky} aria-hidden="true">
         {particles.map((particle) => (
           <span
@@ -66,7 +85,7 @@ export default function App() {
         </div>
       </div>
 
-      <div className={styles.stage}>
+      <div className={`${styles.stage} ${view !== "intro" ? styles.stageWithHome : ""}`}>
         {view === "intro" ? <IntroScreen onOpen={() => setView("book")} /> : null}
         {view === "book" ? (
           <PixelBook

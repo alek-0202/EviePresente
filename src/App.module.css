@@ -32,6 +32,85 @@
   padding: clamp(1rem, 3vw, 2rem);
 }
 
+.homeButton {
+  position: fixed;
+  top: clamp(0.9rem, 2vw, 1.4rem);
+  left: clamp(0.9rem, 2vw, 1.4rem);
+  z-index: 10;
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.85rem;
+  border: 3px solid #2d263c;
+  color: #fff5d8;
+  background: #3b3049;
+  box-shadow:
+    0 4px 0 #171222,
+    inset 0 0 0 2px #6f5a76;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    filter 160ms ease;
+}
+
+.homeButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.homeButton:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 2px 0 #171222,
+    inset 0 0 0 2px #6f5a76;
+}
+
+.homeIcon {
+  position: relative;
+  display: block;
+  width: 1.25rem;
+  height: 1.15rem;
+}
+
+.homeIcon::before {
+  position: absolute;
+  left: 0.14rem;
+  top: 0;
+  width: 0.9rem;
+  height: 0.9rem;
+  content: "";
+  background: #f5ca92;
+  box-shadow: inset -3px 3px 0 #ba7b73;
+  transform: rotate(45deg);
+}
+
+.homeIcon span {
+  position: absolute;
+  left: 0.15rem;
+  bottom: 0;
+  width: 0.95rem;
+  height: 0.72rem;
+  border: 2px solid #241d31;
+  background: #f5ca92;
+  box-shadow: inset -3px -2px 0 #ba7b73;
+}
+
+.homeIcon span::after {
+  position: absolute;
+  right: 0.12rem;
+  bottom: 0;
+  width: 0.22rem;
+  height: 0.38rem;
+  content: "";
+  background: #7d5263;
+}
+
 .pixelSky {
   position: fixed;
   inset: 0;
@@ -279,6 +358,10 @@
   .stage {
     align-items: start;
     padding: 0.75rem;
+  }
+
+  .stageWithHome {
+    padding-top: 4.75rem;
   }
 
   .window {
