@@ -1,0 +1,241 @@
+.screen {
+  display: grid;
+  width: min(100%, 58rem);
+  min-height: 34rem;
+  grid-template-columns: minmax(14rem, 0.75fr) minmax(18rem, 1.25fr);
+  grid-template-areas:
+    "scene copy"
+    "scene controls"
+    "scene action";
+  gap: 1rem 2rem;
+  align-items: center;
+  padding: clamp(1.2rem, 4vw, 3rem);
+  border: 5px solid #292234;
+  color: #f8dfbd;
+  background: #211b2d;
+  box-shadow:
+    0 12px 0 #171222,
+    inset 0 0 0 4px #765769;
+  animation: introIn 420ms steps(5, end) both;
+}
+
+.cabin {
+  position: relative;
+  grid-area: scene;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 4px solid #171222;
+  background:
+    linear-gradient(#242038 0 44%, #5f4947 44% 100%);
+  box-shadow: inset 0 0 0 4px #44354d;
+}
+
+.window {
+  position: absolute;
+  left: 12%;
+  top: 12%;
+  width: 40%;
+  height: 28%;
+  border: 5px solid #34283d;
+  background: #10182d;
+  box-shadow: inset 0 0 0 3px #766477;
+}
+
+.window::before {
+  position: absolute;
+  right: 18%;
+  top: 15%;
+  width: 1.4rem;
+  height: 1.4rem;
+  content: "";
+  background: #ffe09a;
+  box-shadow: 0 0 0 5px rgba(255, 224, 154, 0.08);
+}
+
+.fire {
+  position: absolute;
+  left: 10%;
+  bottom: 12%;
+  width: 36%;
+  height: 25%;
+  border: 5px solid #34283d;
+  background: #4d3a43;
+}
+
+.fire::before {
+  position: absolute;
+  left: 36%;
+  bottom: 12%;
+  width: 28%;
+  height: 48%;
+  content: "";
+  background: #f0a06f;
+  box-shadow:
+    -8px 8px 0 #c46e68,
+    8px 8px 0 #ffdb86;
+}
+
+.radio {
+  position: absolute;
+  right: 9%;
+  bottom: 17%;
+  width: 38%;
+  height: 20%;
+  border: 5px solid #2a2133;
+  background: #8e626e;
+  box-shadow: inset -6px -6px 0 #5b4055;
+}
+
+.radio::before {
+  position: absolute;
+  left: 12%;
+  top: 24%;
+  width: 46%;
+  height: 38%;
+  content: "";
+  background: #f5ca92;
+}
+
+.radio::after {
+  position: absolute;
+  right: 12%;
+  top: 30%;
+  width: 0.8rem;
+  height: 0.8rem;
+  content: "";
+  background: #34283e;
+  box-shadow: 0 1.4rem 0 -0.15rem #34283e;
+}
+
+.signalOne,
+.signalTwo,
+.signalThree {
+  position: absolute;
+  right: 12%;
+  border: 3px solid #83c5a5;
+  border-left: 0;
+  border-bottom: 0;
+}
+
+.signalOne {
+  bottom: 40%;
+  width: 1rem;
+  height: 1rem;
+}
+
+.signalTwo {
+  right: 8%;
+  bottom: 43%;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.signalThree {
+  right: 4%;
+  bottom: 46%;
+  width: 2rem;
+  height: 2rem;
+}
+
+.copy {
+  grid-area: copy;
+}
+
+.kicker {
+  margin: 0 0 0.35rem;
+  color: #e9b98f;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.copy h1 {
+  margin: 0;
+  color: #fff3d7;
+  font-size: clamp(2rem, 5vw, 3.7rem);
+  line-height: 1;
+  text-shadow: 0 5px 0 #171222;
+}
+
+.copy strong {
+  display: block;
+  margin-top: 0.6rem;
+  color: #83c5a5;
+  font-size: 0.85rem;
+}
+
+.copy p:not(.kicker) {
+  margin: 0.8rem 0 0;
+  color: #f0ceb0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.controls {
+  display: grid;
+  grid-area: controls;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.controls div {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.55rem;
+  border: 3px solid #44354f;
+  background: #2d263b;
+}
+
+.controls dt {
+  color: #ffe09a;
+  font-size: 0.64rem;
+  font-weight: 900;
+}
+
+.controls dd {
+  margin: 0;
+  color: #cdb2a5;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+}
+
+.screen > button {
+  grid-area: action;
+  justify-self: start;
+}
+
+@keyframes introIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .screen {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "scene"
+      "copy"
+      "controls"
+      "action";
+    padding: 1rem;
+  }
+
+  .cabin {
+    max-height: 15rem;
+    aspect-ratio: 16 / 8;
+  }
+
+  .controls {
+    grid-template-columns: 1fr 1fr;
+  }
+}

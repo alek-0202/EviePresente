@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { AudioToggle } from "./components/AudioToggle/AudioToggle";
 import { IntroScreen } from "./components/IntroScreen/IntroScreen";
 import { MemoriesGallery } from "./components/MemoriesGallery/MemoriesGallery";
@@ -9,6 +9,10 @@ import { memories } from "./data/memories";
 import { birthdayMessages } from "./data/messages";
 import { storyPages } from "./data/storyPages";
 import styles from "./App.module.css";
+
+const GamePage = lazy(() =>
+  import("./game/components/GamePage").then((module) => ({ default: module.GamePage })),
+);
 
 const particles = Array.from({ length: 42 }, (_, index) => ({
   id: index,
@@ -25,7 +29,7 @@ type ParticleStyle = CSSProperties & {
   "--y": string;
 };
 
-type AppView = "intro" | "book" | "memories" | "story";
+type AppView = "intro" | "book" | "memories" | "story" | "game";
 
 export default function App() {
   const [view, setView] = useState<AppView>("intro");
@@ -86,7 +90,9 @@ export default function App() {
       </div>
 
       <div className={`${styles.stage} ${view !== "intro" ? styles.stageWithHome : ""}`}>
-        {view === "intro" ? <IntroScreen onOpen={() => setView("book")} /> : null}
+        {view === "intro" ? (
+          <IntroScreen onOpen={() => setView("book")} onOpenGame={() => setView("game")} />
+        ) : null}
         {view === "book" ? (
           <PixelBook
             messages={birthdayMessages}
@@ -108,6 +114,11 @@ export default function App() {
             onBackToBook={() => setView("book")}
             onOpenMemories={() => setView("memories")}
           />
+        ) : null}
+        {view === "game" ? (
+          <Suspense fallback={<div className={styles.gameLoading}>carregando mundo...</div>}>
+            <GamePage onExit={() => setView("intro")} />
+          </Suspense>
         ) : null}
       </div>
     </main>

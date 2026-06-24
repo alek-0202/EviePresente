@@ -1,0 +1,271 @@
+.gamePage {
+  display: grid;
+  width: min(100%, 76rem);
+  gap: 1rem;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  animation: gameIn 420ms steps(5, end) both;
+}
+
+.header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.kicker {
+  margin: 0 0 0.3rem;
+  color: #ffd99c;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin: 0;
+  color: #fff3d7;
+  font-size: clamp(1.8rem, 5vw, 3.4rem);
+  line-height: 1;
+  text-shadow: 0 5px 0 #2b2134;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 0.7rem;
+}
+
+.moderatorBadge {
+  padding: 0.45rem 0.6rem;
+  border: 3px solid #282034;
+  color: #2d263b;
+  background: #83c5a5;
+  box-shadow: 3px 3px 0 #171222;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.gameLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 16rem;
+  gap: 1rem;
+  align-items: start;
+}
+
+.gameFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 10 / 7;
+  overflow: hidden;
+  border: 5px solid #292234;
+  background: #171a2d;
+  box-shadow:
+    0 12px 0 #171222,
+    10px 18px 0 rgba(18, 14, 25, 0.28),
+    inset 0 0 0 4px #765769;
+  isolation: isolate;
+}
+
+.interactionHint {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  z-index: 4;
+  max-width: calc(100% - 2rem);
+  padding: 0.45rem 0.65rem;
+  border: 3px solid #211a2d;
+  color: #2d263b;
+  background: #ffe3a6;
+  box-shadow: 4px 4px 0 rgba(23, 18, 34, 0.65);
+  font-size: clamp(0.65rem, 1.5vw, 0.78rem);
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.statusPanel {
+  display: grid;
+  gap: 1.15rem;
+  padding: 0.9rem 0;
+}
+
+.statusPanel > div {
+  display: grid;
+  gap: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid rgba(255, 225, 168, 0.24);
+}
+
+.statusPanel span,
+.statusPanel dt {
+  color: #e9b98f;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.statusPanel strong {
+  color: #fff0cf;
+  font-size: 1.15rem;
+}
+
+.statusPanel p {
+  margin: 0;
+  color: #f6d5ae;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.statusPanel dl {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.statusPanel dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.statusPanel dd {
+  margin: 0;
+  color: #fff0cf;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.mobileControls {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.directionPad {
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left down right";
+  grid-template-columns: repeat(3, 3.25rem);
+  grid-template-rows: repeat(2, 3.25rem);
+}
+
+.directionPad button,
+.interactButton {
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 3px solid #2d263b;
+  color: #fff3d0;
+  background: #4b3a57;
+  box-shadow:
+    0 5px 0 #171222,
+    inset -4px -4px 0 #2f263b,
+    inset 4px 4px 0 #806278;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 900;
+  touch-action: none;
+}
+
+.up {
+  grid-area: up;
+}
+
+.left {
+  grid-area: left;
+}
+
+.down {
+  grid-area: down;
+}
+
+.right {
+  grid-area: right;
+}
+
+.interactButton {
+  width: 4rem;
+  height: 4rem;
+  color: #2d263b;
+  background: #f5c77f;
+  box-shadow:
+    0 5px 0 #171222,
+    inset -4px -4px 0 #c47a6f,
+    inset 4px 4px 0 #ffe9a8;
+}
+
+@keyframes gameIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 920px) {
+  .gamePage {
+    padding-top: 5.25rem;
+  }
+
+  .header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .headerActions {
+    justify-content: start;
+  }
+
+  .gameLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .statusPanel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .statusPanel dl {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  }
+
+  .statusPanel dl div {
+    display: grid;
+  }
+
+  .statusPanel dd {
+    text-align: left;
+  }
+}
+
+@media (max-width: 700px) {
+  .gamePage {
+    padding-inline: 0;
+  }
+
+  .gameFrame {
+    border-width: 4px;
+  }
+
+  .mobileControls {
+    display: flex;
+  }
+
+  .statusPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .statusPanel dl {
+    display: none;
+  }
+}

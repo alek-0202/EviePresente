@@ -1,0 +1,189 @@
+.panel {
+  position: absolute;
+  inset: 5%;
+  z-index: 9;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+  gap: 0.7rem;
+  overflow-y: auto;
+  padding: 0.9rem;
+  border: 4px solid #171222;
+  color: #fff0cf;
+  background: #30283b;
+  box-shadow:
+    0 0 0 3px #9c6b78,
+    7px 7px 0 rgba(14, 11, 22, 0.78),
+    inset 0 0 0 3px rgba(255, 229, 168, 0.08);
+}
+
+.panel header,
+.panel footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.panel header {
+  padding-bottom: 0.65rem;
+  border-bottom: 3px solid rgba(255, 225, 168, 0.2);
+}
+
+.panel header span,
+.dial > span,
+.signal > span {
+  color: #e9b98f;
+  font-size: 0.66rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.panel h2 {
+  margin: 0.2rem 0 0;
+  color: #fff3d7;
+  font-size: clamp(1.1rem, 3.5vw, 1.7rem);
+}
+
+.panel header button {
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  place-items: center;
+  border: 3px solid #2d263b;
+  color: #2d263b;
+  background: #f5c77f;
+  box-shadow: inset -3px -3px 0 #c47a6f;
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.receiver {
+  display: grid;
+  align-content: center;
+  gap: 0.8rem;
+  min-height: 9rem;
+  padding: 0.8rem;
+  border: 4px solid #191521;
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 8px),
+    #1d2631;
+  box-shadow: inset 0 0 0 3px #4d5964;
+}
+
+.frequency {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  color: #f7d88c;
+}
+
+.frequency strong {
+  font-size: clamp(1.6rem, 6vw, 3rem);
+  line-height: 1;
+}
+
+.frequency span,
+.frequency small {
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.signal {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.signal div {
+  height: 0.65rem;
+  border: 2px solid #15111c;
+  background: #433b4d;
+}
+
+.signal i {
+  display: block;
+  height: 100%;
+  background: #8ed1ad;
+  transition: width 160ms steps(8, end);
+}
+
+.receiver p {
+  margin: 0;
+  color: #d9e4c2;
+  font-size: clamp(0.72rem, 1.8vw, 0.9rem);
+  line-height: 1.55;
+}
+
+.dial {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.dial input {
+  width: 100%;
+  accent-color: #f5c77f;
+}
+
+.hints {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.hints p {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.5rem;
+  margin: 0;
+  color: #e4c8aa;
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.hints span {
+  color: #f5c77f;
+  font-weight: 900;
+}
+
+.feedback {
+  margin: 0;
+  color: #a9d5bd;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.panel footer {
+  justify-content: end;
+}
+
+.panel footer button {
+  min-height: 2.5rem;
+  padding: 0.55rem 0.8rem;
+  border: 3px solid #2d263b;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.hintButton {
+  color: #fff0cf;
+  background: #59435d;
+  box-shadow: inset -3px -3px 0 #30263b;
+}
+
+.tuneButton {
+  color: #2d263b;
+  background: #f5c77f;
+  box-shadow: inset -3px -3px 0 #c47a6f;
+}
+
+@media (max-width: 620px) {
+  .panel {
+    inset: 2%;
+    padding: 0.65rem;
+  }
+}

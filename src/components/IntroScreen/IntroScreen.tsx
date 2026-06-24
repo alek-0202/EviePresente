@@ -2,9 +2,10 @@ import styles from "./IntroScreen.module.css";
 
 type IntroScreenProps = {
   onOpen: () => void;
+  onOpenGame: () => void;
 };
 
-export function IntroScreen({ onOpen }: IntroScreenProps) {
+export function IntroScreen({ onOpen, onOpenGame }: IntroScreenProps) {
   return (
     <section className={styles.intro} aria-labelledby="intro-title">
       <div className={styles.closedBook} aria-hidden="true">
@@ -18,9 +19,18 @@ export function IntroScreen({ onOpen }: IntroScreenProps) {
           Algumas pessoas se juntaram para deixar palavras guardadas neste
           pequeno livro. Que cada página te lembre o quanto você é especial.
         </p>
-        <button className="pixel-button" type="button" onClick={onOpen}>
-          abrir presente
-        </button>
+        <div className={styles.actions}>
+          <button className="pixel-button" type="button" onClick={onOpen}>
+            abrir presente
+          </button>
+          <button
+            className="pixel-button pixel-button--secondary"
+            type="button"
+            onClick={onOpenGame}
+          >
+            minigame
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -1,0 +1,144 @@
+.dialogue {
+  position: absolute;
+  left: 2.5%;
+  right: 2.5%;
+  bottom: 2.8%;
+  z-index: 5;
+  display: grid;
+  gap: 0.55rem;
+  min-height: 7.5rem;
+  padding: 0.75rem 3.5rem 0.75rem 0.75rem;
+  border: 4px solid #171222;
+  color: #2d263b;
+  background: #ffe8bc;
+  box-shadow:
+    0 0 0 3px #f2bb7f,
+    6px 6px 0 rgba(17, 13, 27, 0.72),
+    inset -5px -5px 0 #d59676;
+}
+
+.speakerRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.8rem;
+}
+
+.portrait,
+.portraitFallback {
+  width: 4.5rem;
+  height: 4.5rem;
+  border: 3px solid #2d263b;
+  background: #6f4d62;
+  image-rendering: pixelated;
+}
+
+.portrait {
+  object-fit: cover;
+}
+
+.portraitFallback {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.portraitFallback::before {
+  width: 1.7rem;
+  height: 1.7rem;
+  content: "";
+  background: #f2c78f;
+  box-shadow:
+    0 0 0 3px #2d263b,
+    -7px 5px 0 #56374f,
+    7px 5px 0 #56374f;
+}
+
+.portraitFallback span {
+  position: absolute;
+  bottom: 0.55rem;
+  width: 2.4rem;
+  height: 1.2rem;
+  background: #85ad95;
+  box-shadow: 0 0 0 3px #2d263b;
+}
+
+.copy strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #7e2d43;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.copy p {
+  margin: 0;
+  font-size: clamp(0.78rem, 1.8vw, 0.98rem);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.choices button {
+  min-height: 2.3rem;
+  padding: 0.45rem 0.6rem;
+  border: 3px solid #2d263b;
+  color: #fff1cb;
+  background: #59435d;
+  box-shadow: inset -3px -3px 0 #30263b;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.choices button:hover {
+  filter: brightness(1.13);
+}
+
+.choices button span {
+  margin-right: 0.45rem;
+  color: #ffd99c;
+}
+
+.advance {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: grid;
+  width: 2.2rem;
+  height: 2.2rem;
+  place-items: center;
+  border: 3px solid #2d263b;
+  color: #2d263b;
+  background: #f5c77f;
+  box-shadow:
+    0 4px 0 #7e5263,
+    inset -3px -3px 0 #c47a6f;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+@media (max-width: 620px) {
+  .dialogue {
+    left: 1.5%;
+    right: 1.5%;
+    min-height: 8.6rem;
+    padding: 0.55rem 2.9rem 0.55rem 0.55rem;
+  }
+
+  .portrait,
+  .portraitFallback {
+    width: 3.4rem;
+    height: 3.4rem;
+  }
+
+  .choices {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,15 @@
+.canvasHost {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #171a2d;
+  image-rendering: pixelated;
+}
+
+.canvasHost canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  image-rendering: pixelated;
+}

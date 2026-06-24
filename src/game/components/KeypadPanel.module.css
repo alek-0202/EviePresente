@@ -1,0 +1,119 @@
+.panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 9;
+  display: grid;
+  width: min(90%, 24rem);
+  max-height: 94%;
+  gap: 0.65rem;
+  overflow-y: auto;
+  padding: 0.85rem;
+  border: 4px solid #171222;
+  color: #fff0cf;
+  background: #30283b;
+  box-shadow:
+    0 0 0 3px #9c6b78,
+    7px 7px 0 rgba(14, 11, 22, 0.78);
+  transform: translate(-50%, -50%);
+}
+
+.panel header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.7rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 3px solid rgba(255, 225, 168, 0.2);
+}
+
+.panel header span {
+  color: #e9b98f;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.panel h2 {
+  margin: 0.2rem 0 0;
+  color: #fff3d7;
+  font-size: 1.2rem;
+}
+
+.panel header button {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 3px solid #2d263b;
+  color: #2d263b;
+  background: #f5c77f;
+  font: inherit;
+  font-weight: 900;
+}
+
+.description {
+  margin: 0;
+  color: #dbc0a5;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.panel output {
+  display: grid;
+  min-height: 3.2rem;
+  place-items: center;
+  border: 4px solid #171222;
+  color: #b4e0bd;
+  background: #1e2930;
+  box-shadow: inset 0 0 0 3px #4c5d61;
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.7rem;
+}
+
+.keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+}
+
+.keys button,
+.hintButton {
+  min-height: 2.4rem;
+  border: 3px solid #2d263b;
+  color: #2d263b;
+  background: #f5c77f;
+  box-shadow: inset -3px -3px 0 #c47a6f;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.hints {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.hints p,
+.error {
+  margin: 0;
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.hints p {
+  color: #e4c8aa;
+}
+
+.error {
+  color: #efac9e;
+  font-weight: 900;
+}
+
+.hintButton {
+  color: #fff0cf;
+  background: #59435d;
+  box-shadow: inset -3px -3px 0 #30263b;
+}

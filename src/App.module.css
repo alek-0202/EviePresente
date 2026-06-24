@@ -32,6 +32,19 @@
   padding: clamp(1rem, 3vw, 2rem);
 }
 
+.gameLoading {
+  padding: 1rem 1.4rem;
+  border: 4px solid #2d263b;
+  color: #2d263b;
+  background: #f5c77f;
+  box-shadow:
+    0 6px 0 #171222,
+    inset -5px -5px 0 #c47a6f,
+    inset 5px 5px 0 #ffe9a8;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .homeButton {
   position: fixed;
   top: clamp(0.9rem, 2vw, 1.4rem);

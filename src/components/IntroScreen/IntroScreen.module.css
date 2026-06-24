@@ -81,6 +81,13 @@
   justify-items: center;
 }
 
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
 .kicker {
   margin: 0 0 0.5rem;
   color: #ffd99c;
