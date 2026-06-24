@@ -35,7 +35,7 @@
 .cover {
   position: relative;
   display: grid;
-  min-height: clamp(19rem, 50vw, 28rem);
+  min-height: clamp(28rem, 62vw, 38rem);
   place-items: center;
   overflow: hidden;
   border-right: 5px solid #292234;
@@ -105,7 +105,7 @@
 
 .empty {
   display: grid;
-  min-height: clamp(19rem, 50vw, 28rem);
+  min-height: clamp(28rem, 62vw, 38rem);
   place-items: center;
   padding: 2rem;
   color: #ffe6aa;
@@ -169,7 +169,7 @@
   }
 
   .cover {
-    min-height: 24rem;
+    min-height: 33rem;
   }
 
   .cover span {
@@ -190,6 +190,6 @@
   }
 
   .cover {
-    min-height: 25rem;
+    min-height: 34rem;
   }
 }
