@@ -47,6 +47,24 @@ export const birthdayMessages: BirthdayMessage[] = [
     message: "Hi evie, thank you for being my friend love ya :3\n\n-Crita",
   },
   {
+    id: "nabinho",
+    author: "Nabinho",
+    optionalTitle: "Parceria por muitos anos",
+    avatarUrl: "/assets/avatars/nabinho.png",
+    optionalEmoji: "star",
+    message:
+      "Feliz aniversário, Eviezinha! 🎉🥳 Muita felicidade, saúde e sucesso na tua vida. Espero que a nossa amizade dure por muitos e muitos anos.\n\nTamo junto sempre, pode contar comigo para o que precisar. Tu é foda, tu tá ligado que a gente é parceria sempre, e vou estar sempre aqui por você E VOU ENCHER O SEU SACO POR MUITO TEMPO HEHE",
+  },
+  {
+    id: "gabriela",
+    author: "Gabriela",
+    optionalTitle: "Um super feliz aniversário",
+    avatarUrl: "/assets/avatars/gabriela.png",
+    optionalEmoji: "spark",
+    message:
+      "Um super feliz aniversário pra você Juuu, gosto muito da nossa amizade e de você S2S2S2",
+  },
+  {
     id: "alex-final",
     author: "Alex",
     optionalTitle: "Minha mensagem final para Evie",
