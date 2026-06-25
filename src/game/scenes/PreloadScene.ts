@@ -146,6 +146,32 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   private createStoryTextures() {
+    if (!this.textures.exists("story-magnifier")) {
+      const magnifier = this.make.graphics({ x: 0, y: 0 });
+      magnifier.lineStyle(5, 0xffdda1, 1);
+      magnifier.strokeCircle(13, 13, 8);
+      magnifier.lineStyle(5, 0x5d4054, 1);
+      magnifier.lineBetween(19, 19, 29, 29);
+      magnifier.generateTexture("story-magnifier", 32, 32);
+      magnifier.destroy();
+    }
+
+    for (let digit = 0; digit <= 9; digit += 1) {
+      const key = `frame-digit-${digit}`;
+      if (this.textures.exists(key)) {
+        continue;
+      }
+      const frame = this.make.graphics({ x: 0, y: 0 });
+      frame.fillStyle(0x2d263b);
+      frame.fillRect(1, 2, 30, 28);
+      frame.fillStyle(0xd2a56f);
+      frame.fillRect(4, 5, 24, 22);
+      frame.fillStyle(0x6d4b62);
+      frame.fillRect(7, 8, 18, 16);
+      frame.generateTexture(key, 32, 32);
+      frame.destroy();
+    }
+
     const radio = this.make.graphics({ x: 0, y: 0 });
     radio.fillStyle(0x241d2e);
     radio.fillRect(1, 5, 30, 23);

@@ -1,0 +1,164 @@
+.panel {
+  position: absolute;
+  inset: 5%;
+  z-index: 16;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 5px solid #251e30;
+  color: #f8dfbd;
+  background: #2d263b;
+  box-shadow:
+    8px 8px 0 rgba(18, 14, 25, 0.82),
+    inset 0 0 0 4px #765769;
+}
+
+.panel header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  border-bottom: 3px solid rgba(255, 224, 154, 0.28);
+  padding-bottom: 0.7rem;
+}
+
+.panel header span,
+.activeSlot span {
+  color: #e9b98f;
+  font-size: 0.58rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.panel h2 {
+  margin: 0.2rem 0 0;
+  color: #fff3d7;
+  font-size: 1.35rem;
+}
+
+.panel header button {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #171222;
+  color: #2d263b;
+  background: #f5c77f;
+  font: inherit;
+  font-weight: 900;
+}
+
+.items {
+  display: grid;
+  align-content: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  overflow: auto;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0.7rem;
+  align-items: center;
+  min-height: 4.5rem;
+  padding: 0.55rem;
+  border: 3px solid #44354f;
+  color: #f4d4b5;
+  background: #241e30;
+  font: inherit;
+  text-align: left;
+}
+
+.item.selected {
+  border-color: #ffe09a;
+  box-shadow: inset 0 0 0 2px #8e626e;
+}
+
+.item.active {
+  background: #35473f;
+}
+
+.icon {
+  position: relative;
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border: 3px solid #211a2d;
+  background: #f5c77f;
+}
+
+.icon img {
+  position: relative;
+  z-index: 1;
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.icon b {
+  position: absolute;
+  color: #5d4054;
+  font-size: 1.5rem;
+}
+
+.item strong,
+.item small {
+  display: block;
+}
+
+.item strong {
+  color: #fff3d7;
+  font-size: 0.76rem;
+}
+
+.item small {
+  margin-top: 0.35rem;
+  color: #cdb2a5;
+  font-size: 0.55rem;
+  line-height: 1.4;
+}
+
+.empty {
+  place-self: center;
+  color: #cdb2a5;
+  font-size: 0.75rem;
+}
+
+.panel footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+  color: #bfa89c;
+  font-size: 0.52rem;
+  text-transform: uppercase;
+}
+
+.activeSlot {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.65rem;
+  border: 3px solid rgba(255, 224, 154, 0.25);
+  background: rgba(36, 30, 48, 0.72);
+}
+
+.activeSlot strong {
+  color: #ffe09a;
+  font-size: 0.85rem;
+}
+
+.activeSlot small {
+  color: #bfa89c;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+  .panel {
+    inset: 2%;
+  }
+
+  .items {
+    grid-template-columns: 1fr;
+  }
+}

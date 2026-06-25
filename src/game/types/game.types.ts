@@ -70,7 +70,19 @@ export type GameFlag =
   | "thought_radio_near"
   | "thought_signal_solved"
   | "thought_basement_entered"
-  | "thought_tunnel_entered";
+  | "thought_tunnel_entered"
+  | "noticed_disappearance"
+  | "started_magnifier_search"
+  | "found_magnifying_glass"
+  | "equipped_magnifying_glass"
+  | "discovered_radio_digit_one"
+  | "discovered_radio_digit_two"
+  | "discovered_radio_digit_three"
+  | "discovered_radio_frequency"
+  | "thought_backpacks_missing"
+  | "thought_magnifier_found"
+  | "thought_first_hidden_digit"
+  | "thought_frequency_discovered";
 
 export type GameObjectType = "npc" | "sign" | "door" | "item" | "chest" | "switch" | "portal";
 
@@ -101,9 +113,20 @@ export type GameAssetKey =
   | "paths"
   | "plants"
   | "player-sheet"
+  | "story-magnifier"
   | "tools"
   | "water-strip"
-  | "wood-bridge";
+  | "wood-bridge"
+  | "frame-digit-0"
+  | "frame-digit-1"
+  | "frame-digit-2"
+  | "frame-digit-3"
+  | "frame-digit-4"
+  | "frame-digit-5"
+  | "frame-digit-6"
+  | "frame-digit-7"
+  | "frame-digit-8"
+  | "frame-digit-9";
 
 export type MapProp = TilePosition & {
   assetKey: GameAssetKey;
@@ -179,6 +202,16 @@ export type InteractiveObjectDefinition = {
   targetPosition?: TilePosition;
   triggerRadius?: number;
   collision?: boolean;
+  grantsItems?: string[];
+  hiddenWhenOwnedItemId?: string;
+  hiddenDetail?: HiddenDetailDefinition;
+};
+
+export type HiddenDetailDefinition = {
+  requiredItemId: string;
+  discoveryFlag: GameFlag;
+  sequence: 1 | 2 | 3;
+  mark: "I" | "II" | "III";
 };
 
 export type DialogueChoice = {
@@ -208,12 +241,32 @@ export type PuzzleDefinition = {
   completionFlags: GameFlag[];
 };
 
+export type ActOneRadioClues = {
+  firstDigit?: string;
+  secondDigit?: string;
+  thirdDigit?: string;
+  discoveredFrameIds: string[];
+};
+
+export type InventoryItem = {
+  id: string;
+  name: string;
+  description: string;
+  iconPath: string;
+  usableOn?: string[];
+};
+
 export type GameSaveData = {
-  version: 2;
+  version: 3;
   mapId: GameMapId;
   playerPosition: TilePosition;
   flags: GameFlag[];
   items: string[];
+  activeItemId: string | null;
+  seenInteractions: string[];
+  protagonistId: "the-viewer";
+  actOneFrequency: number;
+  actOneRadioClues: ActOneRadioClues;
   puzzleHints: Record<string, number>;
   updatedAt: string;
 };
@@ -226,6 +279,15 @@ export type DialogueViewModel = {
   lineIndex: number;
   lineCount: number;
   choices: DialogueChoice[];
+};
+
+export type ClueInspectionViewModel = {
+  objectId: string;
+  title: string;
+  imageUrl: string;
+  detail: string;
+  mark?: string;
+  digit?: string;
 };
 
 export type GameStatusViewModel = {

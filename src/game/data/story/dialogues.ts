@@ -8,11 +8,11 @@ const alexPortrait = publicAssetPath("assets/avatars/alex.png");
 export const storyDialogues: Record<string, DialogueDefinition> = {
   "act1-awakening": {
     id: "act1-awakening",
-    speaker: "Você",
+    speaker: "The Viewer",
     lines: [
-      "A cabana está silenciosa demais. O relógio marca 08:17, mas ainda está escuro lá fora.",
-      "As camas estão vazias. Ninguém responde. Na sala, alguma coisa chia entre duas frequências.",
-      "Se todo mundo saiu, deixou tudo para trás. Se não saiu... então a cabana ainda guarda uma explicação.",
+      "Eu lembro da viagem... mas não lembro de ter sentado aqui.",
+      "O relógio marca 08:17, embora ainda esteja escuro. As outras camas estão vazias.",
+      "Antes de procurar uma saída, preciso descobrir o que ficou para trás.",
     ],
   },
   "act1-empty-bed": {
@@ -20,9 +20,9 @@ export const storyDialogues: Record<string, DialogueDefinition> = {
     speaker: "Quarto",
     lines: [
       "A cama ao lado ainda está quente. O cobertor foi empurrado para trás às pressas.",
-      "No chão, uma foto dobrada mostra três reflexos na janela. Nenhum deles deveria estar ali.",
+      "Não há mala aberta nem roupa separada. Quem dormia aqui não planejava sair.",
     ],
-    setFlagsAfterEnd: ["inspected_empty_bed", "found_photo_fragment_bedroom"],
+    setFlagsAfterEnd: ["inspected_empty_bed"],
   },
   "act1-backpacks": {
     id: "act1-backpacks",
@@ -38,18 +38,33 @@ export const storyDialogues: Record<string, DialogueDefinition> = {
     speaker: "Copos",
     lines: [
       "Dez copos. Alguns ainda guardam marcas de dedo. Isso aconteceu rápido.",
-      "Quatro aparecem alinhados exatamente como na fotografia caída ao lado da pia.",
+      "Nenhum foi lavado ou guardado. A noite simplesmente parou no meio.",
     ],
-    setFlagsAfterEnd: ["inspected_cups", "found_photo_fragment_kitchen"],
+    setFlagsAfterEnd: ["inspected_cups"],
   },
-  "act1-fireplace": {
-    id: "act1-fireplace",
+  "act1-frame-road": {
+    id: "act1-frame-road",
     speaker: "Quadro",
     lines: [
-      "A moldura está chamuscada e o vidro foi riscado por dentro.",
-      "Entre as marcas ainda é possível ler: “98 — não confie no relógio”.",
+      "Uma estrada vazia serpenteia entre postes até desaparecer na neblina.",
+      "A tinta está gasta demais nos cantos. Talvez exista algo sob a poeira.",
     ],
-    setFlagsAfterEnd: ["inspected_fireplace"],
+  },
+  "act1-frame-cabin": {
+    id: "act1-frame-cabin",
+    speaker: "Quadro",
+    lines: [
+      "A cabana aparece iluminada por dentro, cercada por uma escuridão sem estrelas.",
+      "Há riscos muito finos na moldura, mas são pequenos demais para ler a olho nu.",
+    ],
+  },
+  "act1-frame-forest": {
+    id: "act1-frame-forest",
+    speaker: "Quadro",
+    lines: [
+      "Árvores fecham uma trilha que parece terminar exatamente onde o corredor começa.",
+      "No canto inferior, a tinta foi raspada de propósito.",
+    ],
   },
   "act1-hearth": {
     id: "act1-hearth",
@@ -77,18 +92,52 @@ export const storyDialogues: Record<string, DialogueDefinition> = {
     ],
     setFlagsAfterEnd: ["found_photo_fragment_living"],
   },
+  "act1-kitchen-photo": {
+    id: "act1-kitchen-photo",
+    speaker: "Fotografia",
+    lines: [
+      "Quatro copos estão alinhados diante da câmera, embora houvesse dez pessoas na viagem.",
+      "No verso, alguém escreveu: “quarto, sala, cozinha”.",
+    ],
+    setFlagsAfterEnd: ["found_photo_fragment_kitchen"],
+  },
+  "act1-bedroom-photo": {
+    id: "act1-bedroom-photo",
+    speaker: "Fotografia",
+    lines: [
+      "Três reflexos aparecem na janela do quarto. Nenhum corresponde a quem segurava a câmera.",
+      "Estranho. Eu lembro dessa cena, mas não me vejo nela.",
+    ],
+    setFlagsAfterEnd: ["found_photo_fragment_bedroom"],
+  },
+  "act1-magnifier-found": {
+    id: "act1-magnifier-found",
+    speaker: "Lupa",
+    lines: [
+      "Uma lupa foi esquecida entre um caderno de viagem e talheres ainda embalados.",
+      "Talvez isso ajude a enxergar o que todo mundo deixou passar.",
+    ],
+  },
+  "act1-photo-before-signal": {
+    id: "act1-photo-before-signal",
+    speaker: "The Viewer",
+    lines: [
+      "É uma fotografia da viagem, mas ainda não sei o que procurar nela.",
+      "O rádio parece insistir em alguma mensagem. Primeiro preciso entender aquela transmissão.",
+    ],
+  },
   "act1-radio-before": {
     id: "act1-radio-before",
     speaker: "Rádio",
     lines: [
-      "O rádio chia como se estivesse procurando uma voz.",
-      "O dial se move sozinho por alguns milímetros, mas ainda falta uma faixa por onde começar.",
+      "O rádio chia como se estivesse tentando completar uma frase.",
+      "Há marcas microscópicas no dial e nos quadros da cabana. Preciso de algo para examinar detalhes pequenos.",
     ],
     setFlagsAfterEnd: ["examined_radio"],
   },
   "act1-radio-cabin-first": {
     id: "act1-radio-cabin-first",
-    speaker: "Você",
+    speaker: "The Viewer",
     lines: [
       "O rádio está chamando atenção, mas eu ainda nem confirmei se alguém realmente saiu daqui.",
       "As coisas deixadas no quarto podem dizer se isso foi planejado.",
@@ -99,7 +148,7 @@ export const storyDialogues: Record<string, DialogueDefinition> = {
     speaker: "Rádio",
     lines: [
       "A voz desaparece sempre que o dial se afasta de uma faixa muito estreita.",
-      "Tentar todas as frequências seria puro acaso. Alguma pista na sala deve indicar por onde começar.",
+      "Os três quadros da cabana parecem formar uma sequência. Ainda faltam números para ajustar o rádio sem depender do acaso.",
     ],
   },
   "act1-basement-before-signal": {
@@ -186,7 +235,7 @@ export const storyDialogues: Record<string, DialogueDefinition> = {
     id: "act1-basement-recorder",
     speaker: "Gravador",
     lines: [
-      "A fita não reproduz som. Ela reproduz o ruído exato do rádio em 98.5.",
+      "A fita não reproduz som. Ela repete exatamente a frequência que revelou a voz de Caio.",
       "Quando a fita para, a sombra de Caio finalmente acompanha o corpo dele.",
     ],
     setFlagsAfterEnd: ["traced_caio_signal"],

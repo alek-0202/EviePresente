@@ -10,16 +10,19 @@ import {
   onGameEvent,
 } from "../systems/gameEventBus";
 import type {
+  ClueInspectionViewModel,
   DialogueViewModel,
   GameDirection,
   GameMapId,
   GameStatusViewModel,
 } from "../types/game.types";
 import { AbilityToast } from "./AbilityToast";
+import { ClueInspectionPanel } from "./ClueInspectionPanel";
 import { DialogueBox } from "./DialogueBox";
 import { GameCanvas } from "./GameCanvas";
 import { GameIntroScreen } from "./GameIntroScreen";
 import { JournalPanel } from "./JournalPanel";
+import { ActiveItemSlot, InventoryPanel } from "./InventoryPanel";
 import { KeypadPanel } from "./KeypadPanel";
 import { ProgressToast } from "./ProgressToast";
 import { RadioPanel } from "./RadioPanel";
@@ -45,7 +48,7 @@ const emptyDialogue: DialogueViewModel = {
 const initialStatus: GameStatusViewModel = {
   mapId: "bedroom",
   mapTitle: "Carregando cenário...",
-  objective: "Examine a cabana e descubra de onde vem a transmissão.",
+  objective: "Acorde e examine o quarto e a sala da cabana.",
   interactionPrompt: "",
 };
 
@@ -69,6 +72,9 @@ export function GamePage({ onExit }: GamePageProps) {
   const [radioId, setRadioId] = useState<string | null>(null);
   const [keypadId, setKeypadId] = useState<string | null>(null);
   const [journalOpen, setJournalOpen] = useState(false);
+  const [inventoryOpen, setInventoryOpen] = useState(false);
+  const [inspection, setInspection] =
+    useState<ClueInspectionViewModel | null>(null);
   const [mapOpen, setMapOpen] = useState(false);
   const [isModerator, setIsModerator] = useState(false);
   const [ability, setAbility] = useState<AbilityUnlockViewModel | null>(null);
@@ -85,6 +91,7 @@ export function GamePage({ onExit }: GamePageProps) {
       onGameEvent("game:status", setStatus),
       onGameEvent("radio:open", (transmissionId) => {
         setJournalOpen(false);
+        setInventoryOpen(false);
         setMapOpen(false);
         setKeypadId(null);
         setRadioId(transmissionId);
@@ -92,12 +99,14 @@ export function GamePage({ onExit }: GamePageProps) {
       onGameEvent("radio:close", () => setRadioId(null)),
       onGameEvent("keypad:open", (puzzleId) => {
         setJournalOpen(false);
+        setInventoryOpen(false);
         setMapOpen(false);
         setRadioId(null);
         setKeypadId(puzzleId);
       }),
       onGameEvent("keypad:close", () => setKeypadId(null)),
       onGameEvent("journal:toggle", () => {
+        setInventoryOpen(false);
         setJournalOpen((current) => {
           const next = !current;
           emitGameEvent("journal:changed", next);
@@ -105,6 +114,16 @@ export function GamePage({ onExit }: GamePageProps) {
         });
       }),
       onGameEvent("journal:changed", setJournalOpen),
+      onGameEvent("inventory:toggle", () => {
+        setInventoryOpen((current) => {
+          const next = !current;
+          emitGameEvent("inventory:changed", next);
+          return next;
+        });
+      }),
+      onGameEvent("inventory:changed", setInventoryOpen),
+      onGameEvent("inspection:open", setInspection),
+      onGameEvent("inspection:close", () => setInspection(null)),
       onGameEvent("map:changed", setMapOpen),
       onGameEvent("ability:unlocked", (nextAbility) => {
         setAbility(nextAbility);
@@ -155,6 +174,16 @@ export function GamePage({ onExit }: GamePageProps) {
         return;
       }
 
+      if (event.key === "Escape" && inspection) {
+        event.preventDefault();
+        emitGameEvent("inspection:close", undefined);
+        return;
+      }
+
+      if (inspection) {
+        return;
+      }
+
       const key = event.key.toLowerCase();
 
       if (key === "0" && gameDebugConfig.enableModeratorMode) {
@@ -171,11 +200,24 @@ export function GamePage({ onExit }: GamePageProps) {
 
       if (key === "j" && !mapOpen) {
         event.preventDefault();
+        emitGameEvent("inventory:changed", false);
         emitGameEvent("journal:toggle", undefined);
         return;
       }
 
-      if (key === "m" && isModerator && !journalOpen) {
+      if (key === "b" && !mapOpen && !journalOpen) {
+        event.preventDefault();
+        emitGameEvent("inventory:toggle", undefined);
+        return;
+      }
+
+      if (event.key === "Escape" && inventoryOpen) {
+        event.preventDefault();
+        emitGameEvent("inventory:changed", false);
+        return;
+      }
+
+      if (key === "m" && isModerator && !journalOpen && !inventoryOpen) {
         event.preventDefault();
         emitGameEvent("map:changed", !mapOpen);
       }
@@ -187,6 +229,8 @@ export function GamePage({ onExit }: GamePageProps) {
     dialogue.isOpen,
     gameStarted,
     isModerator,
+    inventoryOpen,
+    inspection,
     journalOpen,
     keypadId,
     mapOpen,
@@ -206,6 +250,8 @@ export function GamePage({ onExit }: GamePageProps) {
       setRadioId(null);
       setKeypadId(null);
       setJournalOpen(false);
+      setInventoryOpen(false);
+      setInspection(null);
       setMapOpen(false);
       setThought(null);
       setNotification(null);
@@ -241,6 +287,7 @@ export function GamePage({ onExit }: GamePageProps) {
                 type="button"
                 onClick={() => {
                   emitGameEvent("journal:changed", false);
+                  emitGameEvent("inventory:changed", false);
                   emitGameEvent("map:changed", !mapOpen);
                 }}
               >
@@ -278,6 +325,8 @@ export function GamePage({ onExit }: GamePageProps) {
           <RadioPanel transmissionId={radioId} />
           <KeypadPanel puzzleId={keypadId} />
           <JournalPanel isOpen={journalOpen} />
+          <InventoryPanel isOpen={inventoryOpen} />
+          <ClueInspectionPanel inspection={inspection} />
           <StoryMapPanel currentRoomId={status.mapId as GameMapId} isOpen={mapOpen} />
           <ThoughtBubble thought={thought} />
           <ProgressToast notification={notification} />
@@ -287,6 +336,8 @@ export function GamePage({ onExit }: GamePageProps) {
           !radioId &&
           !keypadId &&
           !journalOpen &&
+          !inventoryOpen &&
+          !inspection &&
           !mapOpen ? (
             <span className={styles.interactionHint}>{status.interactionPrompt}</span>
           ) : null}
@@ -301,12 +352,14 @@ export function GamePage({ onExit }: GamePageProps) {
             <span>objetivo atual</span>
             <p>{status.objective}</p>
           </div>
+          <ActiveItemSlot />
           <dl>
             <div><dt>mover</dt><dd>WASD / setas</dd></div>
             <div><dt>interagir</dt><dd>E / Enter</dd></div>
             <div><dt>diálogo</dt><dd>Espaço</dd></div>
             <div><dt>fechar</dt><dd>Esc</dd></div>
             <div><dt>diário</dt><dd>J</dd></div>
+            <div><dt>mochila</dt><dd>B</dd></div>
             {isModerator ? (
               <>
                 <div><dt>mapa</dt><dd>M</dd></div>
@@ -343,6 +396,15 @@ export function GamePage({ onExit }: GamePageProps) {
           onClick={() => emitGameEvent("game:interact", undefined)}
         >
           E
+        </button>
+        <button
+          className={styles.inventoryButton}
+          type="button"
+          aria-label="Abrir mochila"
+          title="Mochila"
+          onClick={() => emitGameEvent("inventory:toggle", undefined)}
+        >
+          B
         </button>
       </div>
     </section>

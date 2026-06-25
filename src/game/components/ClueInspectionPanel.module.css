@@ -1,0 +1,121 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 17;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(18, 14, 25, 0.56);
+}
+
+.panel {
+  display: grid;
+  width: min(72%, 18rem);
+  max-height: calc(100% - 2rem);
+  gap: 0.65rem;
+  padding: 0.7rem;
+  overflow: auto;
+  border: 4px solid #251e30;
+  color: #f8dfbd;
+  background: #30263a;
+  box-shadow:
+    7px 7px 0 rgba(18, 14, 25, 0.76),
+    inset 0 0 0 3px #765769;
+  animation: inspectIn 180ms steps(3, end) both;
+}
+
+.panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel header span {
+  color: #e9b98f;
+  font-size: 0.54rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.panel header button {
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 3px solid #171222;
+  color: #2d263b;
+  background: #f5c77f;
+  font: inherit;
+  font-weight: 900;
+}
+
+.frame {
+  width: min(100%, 12rem);
+  aspect-ratio: 1;
+  justify-self: center;
+  overflow: hidden;
+  border: 5px solid #241c2c;
+  background: #161421;
+  box-shadow:
+    0 0 0 3px #b58a6f,
+    inset 0 0 0 3px #171222;
+}
+
+.frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: auto;
+}
+
+.copy {
+  display: grid;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.copy h2,
+.copy p {
+  margin: 0;
+}
+
+.copy h2 {
+  color: #fff3d7;
+  font-size: 0.85rem;
+}
+
+.copy p {
+  color: #d8bca7;
+  font-size: 0.58rem;
+  line-height: 1.5;
+}
+
+.copy strong {
+  justify-self: center;
+  padding: 0.35rem 0.55rem;
+  border: 3px solid #211a2d;
+  color: #2d263b;
+  background: #ffe09a;
+  font-size: 0.76rem;
+}
+
+@keyframes inspectIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 700px) {
+  .panel {
+    width: min(86%, 17rem);
+  }
+
+  .frame {
+    width: min(100%, 10.5rem);
+  }
+}

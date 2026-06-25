@@ -19,6 +19,15 @@ incomplete step becomes the current objective. `WorldScene` publishes the
 objective to the status panel and emits an objective notification when it
 changes.
 
+Act One and the opening of Act Two use separate objective definitions. Act One
+ends when Caio is rescued; finding the tunnel belongs to Act Two.
+
+## Inventory
+
+`B` opens the backpack. Inventory, active item, seen interactions and the
+random Act One frequency are stored in save version 3. Legacy saves are
+migrated by `saveSystem.ts`.
+
 ## Protagonist thoughts
 
 Reusable thoughts live in `src/game/data/story/thoughts.ts`.

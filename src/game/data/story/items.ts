@@ -46,7 +46,7 @@ export const storyItems: StoryItemDefinition[] = [
   {
     id: "caio-recorder",
     name: "Gravador de Caio",
-    description: "Repete a estática de 98.5 e ancora a sombra de Caio no loop.",
+    description: "Repete a frequência descoberta e ancora a sombra de Caio no loop.",
     acquiredWithFlag: "traced_caio_signal",
     category: "key-item",
   },

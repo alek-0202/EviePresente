@@ -6,6 +6,7 @@ import type {
   ThoughtViewModel,
 } from "../data/story/story.types";
 import type {
+  ClueInspectionViewModel,
   DialogueViewModel,
   GameDirection,
   GameStatusViewModel,
@@ -34,6 +35,11 @@ type GameEventDetailMap = {
   "keypad:changed": KeypadViewModel;
   "journal:changed": boolean;
   "journal:toggle": undefined;
+  "inventory:changed": boolean;
+  "inventory:toggle": undefined;
+  "inventory:refresh": undefined;
+  "inspection:open": ClueInspectionViewModel;
+  "inspection:close": undefined;
 };
 
 const gameEventTarget = new EventTarget();

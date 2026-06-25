@@ -4,15 +4,59 @@ import type { ProgressNotificationViewModel } from "./story.types";
 export const progressNotifications: Partial<
   Record<GameFlag, Omit<ProgressNotificationViewModel, "id">>
 > = {
+  noticed_disappearance: {
+    label: "investigação atualizada",
+    title: "Todos desapareceram",
+    detail: "As coisas ficaram para trás. O rádio pode ser a única pista ativa.",
+    tone: "objective",
+  },
+  started_magnifier_search: {
+    label: "novos cômodos liberados",
+    title: "Procure uma ferramenta",
+    detail: "A cozinha e o corredor agora podem ser investigados.",
+    tone: "area",
+  },
+  found_magnifying_glass: {
+    label: "item obtido",
+    title: "Lupa",
+    detail: "Abra a mochila com B para equipá-la.",
+    tone: "item",
+  },
+  equipped_magnifying_glass: {
+    label: "item ativo",
+    title: "Lupa",
+    detail: "Quadros com detalhes ocultos voltarão a brilhar.",
+    tone: "item",
+  },
+  discovered_radio_digit_one: {
+    label: "número oculto encontrado",
+    title: "Quadro I",
+    tone: "clue",
+  },
+  discovered_radio_digit_two: {
+    label: "número oculto encontrado",
+    title: "Quadro II",
+    tone: "clue",
+  },
+  discovered_radio_digit_three: {
+    label: "número oculto encontrado",
+    title: "Quadro III",
+    tone: "clue",
+  },
+  discovered_radio_frequency: {
+    label: "frequência descoberta",
+    title: "As marcas I, II e III definem a ordem",
+    tone: "transmission",
+  },
   inspected_fireplace: {
-    label: "nova pista",
-    title: "Faixa de frequência descoberta",
-    detail: "O quadro aponta para 98 MHz.",
+    label: "objeto examinado",
+    title: "A moldura possui riscos minúsculos",
+    detail: "Uma ferramenta de aumento pode revelar mais.",
     tone: "clue",
   },
   heard_caio_signal: {
     label: "transmissão registrada",
-    title: "Caio · 98.5 MHz",
+    title: "Sinal de Caio estabilizado",
     detail: "A mensagem foi adicionada ao diário.",
     tone: "transmission",
   },

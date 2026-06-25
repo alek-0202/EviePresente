@@ -1,5 +1,7 @@
 import Phaser from "phaser";
+import { publicAssetPath } from "../../utils/publicAsset";
 import { playerConfig } from "../config/playerConfig";
+import { actOneFrameClues } from "../data/actOneConfig";
 import { gameMaps } from "../data/maps";
 import { gameNpcs } from "../data/npcs";
 import { interactiveObjects } from "../data/objects";
@@ -15,6 +17,7 @@ import type {
   WorldSceneData,
 } from "../types/game.types";
 import { resolveDialogueId } from "../systems/dialogueSystem";
+import { syncActOneProgression } from "../systems/actOneProgressionSystem";
 import { gameProgress } from "../systems/flagSystem";
 import { emitGameEvent, onGameEvent } from "../systems/gameEventBus";
 import {
@@ -22,6 +25,7 @@ import {
   type InteractionCandidate,
 } from "../systems/interactionSystem";
 import { transitionToMap } from "../systems/mapTransitionSystem";
+import { obtainInventoryItems } from "../systems/inventorySystem";
 import { getCurrentObjective } from "../systems/puzzleSystem";
 import {
   getPuzzleAccess,
@@ -29,6 +33,7 @@ import {
 } from "../systems/progressionSystem";
 import { clearSave, createDefaultSave, loadGame, saveGame } from "../systems/saveSystem";
 import { getPendingStoryTrigger } from "../systems/storyTriggerSystem";
+import { publishStoryProgress } from "../systems/storyProgressSystem";
 import {
   getRoomEntryThought,
   showStoryThought,
@@ -71,6 +76,11 @@ export class WorldScene extends Phaser.Scene {
   > = [];
   private objectSprites = new Map<string, Phaser.GameObjects.Image>();
   private interactionMarkers = new Map<string, Phaser.GameObjects.Container>();
+  private interactionMarkerTexts = new Map<string, Phaser.GameObjects.Text>();
+  private interactionMarkerBackgrounds = new Map<
+    string,
+    Phaser.GameObjects.Rectangle
+  >();
   private interactionGlows = new Map<string, Phaser.GameObjects.Ellipse>();
   private doorLabels = new Map<string, Phaser.GameObjects.Text>();
   private activeInteraction?: InteractionCandidate<WorldInteractable>;
@@ -93,6 +103,8 @@ export class WorldScene extends Phaser.Scene {
     this.automaticTransitions = [];
     this.objectSprites.clear();
     this.interactionMarkers.clear();
+    this.interactionMarkerTexts.clear();
+    this.interactionMarkerBackgrounds.clear();
     this.interactionGlows.clear();
     this.doorLabels.clear();
     this.activeInteraction = undefined;
@@ -174,6 +186,17 @@ export class WorldScene extends Phaser.Scene {
         this.registry.set("storyOverlayOpen", isOpen);
         this.player?.setVelocity(0);
       }),
+      onGameEvent("inventory:changed", (isOpen) => {
+        this.registry.set("storyOverlayOpen", isOpen);
+        this.player?.setVelocity(0);
+      }),
+      onGameEvent("inventory:refresh", () => {
+        this.refreshInteractionVisuals();
+        this.publishStatus(
+          this.activeInteraction ? this.getPrompt(this.activeInteraction) : "",
+        );
+      }),
+      onGameEvent("inspection:close", () => this.closeStoryOverlay()),
     ];
 
     this.time.addEvent({
@@ -496,7 +519,7 @@ export class WorldScene extends Phaser.Scene {
           position.x,
           position.y,
           sprite.displayHeight,
-          0xffdda1,
+          this.getInteractionVisualMode(npc.id),
         );
 
         this.interactables.push({
@@ -518,7 +541,9 @@ export class WorldScene extends Phaser.Scene {
         (object) =>
           object.mapId === this.mapDefinition.id &&
           gameProgress.hasAll(object.visibleWithFlags) &&
-          !gameProgress.hasAny(object.hiddenWithFlags),
+          !gameProgress.hasAny(object.hiddenWithFlags) &&
+          (!object.hiddenWhenOwnedItemId ||
+            !gameProgress.hasItem(object.hiddenWhenOwnedItemId)),
       )
       .forEach((object) => {
         const position = this.toWorldPosition(object.position);
@@ -536,6 +561,9 @@ export class WorldScene extends Phaser.Scene {
           this.add.image(position.x, position.y, texture, object.spriteFrame);
 
         sprite.setDepth(4).setScale(object.spriteScale ?? 1);
+        if (object.hiddenDetail) {
+          sprite.setDisplaySize(38, 38);
+        }
         staticSprite?.refreshBody();
 
         this.objectSprites.set(object.id, sprite);
@@ -544,7 +572,9 @@ export class WorldScene extends Phaser.Scene {
           position.x,
           position.y,
           sprite.displayHeight,
-          this.isAutomaticTransition(object) ? 0x83c5a5 : 0xffdda1,
+          this.isAutomaticTransition(object)
+            ? "door"
+            : this.getInteractionVisualMode(object.id, object),
         );
         if (this.isAutomaticTransition(object)) {
           this.createDoorLabel(object, position);
@@ -572,8 +602,16 @@ export class WorldScene extends Phaser.Scene {
     x: number,
     y: number,
     displayHeight: number,
-    color: number,
+    mode: "completed" | "door" | "important" | "new" | "seen",
   ) {
+    const color =
+      mode === "door"
+        ? 0x83c5a5
+        : mode === "important"
+          ? 0xffd166
+          : mode === "seen" || mode === "completed"
+            ? 0x9d93a3
+            : 0xffdda1;
     const glowWidth = Phaser.Math.Clamp(displayHeight * 0.75, 24, 54);
     const glow = this.add
       .ellipse(x, y + Math.min(displayHeight * 0.28, 16), glowWidth, 14, color, 0.08)
@@ -584,7 +622,7 @@ export class WorldScene extends Phaser.Scene {
       .rectangle(0, 0, 14, 14, color, 0.96)
       .setStrokeStyle(2, 0x211a2d, 1);
     const markerText = this.add
-      .text(0, -1, "!", {
+      .text(0, -1, mode === "seen" ? "·" : "!", {
         color: "#2d263b",
         fontFamily: "monospace",
         fontSize: "11px",
@@ -595,8 +633,18 @@ export class WorldScene extends Phaser.Scene {
       .container(x, markerY, [markerBackground, markerText])
       .setDepth(9);
 
+    if (mode === "completed") {
+      marker.setVisible(false);
+      glow.setAlpha(0.08);
+    } else if (mode === "seen") {
+      marker.setAlpha(0.56).setScale(0.8);
+      glow.setAlpha(0.1);
+    }
+
     this.interactionGlows.set(id, glow);
     this.interactionMarkers.set(id, marker);
+    this.interactionMarkerTexts.set(id, markerText);
+    this.interactionMarkerBackgrounds.set(id, markerBackground);
 
     this.tweens.add({
       targets: marker,
@@ -758,13 +806,34 @@ export class WorldScene extends Phaser.Scene {
       return;
     }
 
-    this.interactionMarkers
+    const candidate = this.interactables.find((item) => item.id === id);
+    const object =
+      candidate?.data.kind === "object" ? candidate.data.value : undefined;
+    const mode = this.getInteractionVisualMode(id, object);
+    const color =
+      mode === "important"
+        ? 0xffd166
+        : mode === "seen" || mode === "completed"
+          ? 0x9d93a3
+          : 0xffdda1;
+    const marker = this.interactionMarkers.get(id);
+    marker
+      ?.setVisible(mode !== "completed")
+      .setScale(active ? 1.25 : mode === "seen" ? 0.8 : 1)
+      .setAlpha(active ? 1 : mode === "seen" ? 0.56 : 0.88);
+    this.interactionMarkerTexts
       .get(id)
-      ?.setScale(active ? 1.25 : 1)
-      .setAlpha(active ? 1 : 0.88);
+      ?.setText(mode === "seen" ? "·" : "!");
+    this.interactionMarkerBackgrounds
+      .get(id)
+      ?.setFillStyle(color, mode === "seen" ? 0.62 : 0.96);
     this.interactionGlows
       .get(id)
-      ?.setStrokeStyle(active ? 3 : 2, active ? 0xfff0b8 : 0xffdda1, active ? 0.9 : 0.48);
+      ?.setStrokeStyle(
+        active ? 3 : 2,
+        active ? 0xfff0b8 : color,
+        active ? 0.9 : mode === "seen" ? 0.22 : 0.48,
+      );
   }
 
   private interact() {
@@ -776,6 +845,7 @@ export class WorldScene extends Phaser.Scene {
 
     if (interaction.kind === "npc") {
       const npc = interaction.value;
+      gameProgress.markInteractionSeen(npc.id);
       const dialogueId = resolveDialogueId(npc.dialogueId, npc.dialogueVariants);
 
       if (dialogueId) {
@@ -785,8 +855,18 @@ export class WorldScene extends Phaser.Scene {
     }
 
     const object = interaction.value;
+    gameProgress.markInteractionSeen(object.id);
+    this.setInteractionVisualState(object.id, true);
 
     if (object.interactionMode === "radio" && object.interactionId) {
+      if (!gameProgress.hasFlag("noticed_disappearance")) {
+        this.getDialogueScene().startDialogue("act1-radio-cabin-first");
+        return;
+      }
+      if (!gameProgress.hasFlag("examined_radio")) {
+        this.getDialogueScene().startDialogue("act1-radio-before");
+        return;
+      }
       const transmission = storyTransmissions[object.interactionId];
       const access = transmission
         ? getPuzzleAccess(transmission.relatedPuzzleId)
@@ -810,6 +890,69 @@ export class WorldScene extends Phaser.Scene {
       return;
     }
 
+    if (object.hiddenDetail) {
+      const detail = object.hiddenDetail;
+      const hasRequiredItem =
+        gameProgress.getActiveItemId() === detail.requiredItemId;
+      const alreadyDiscovered = gameProgress.hasFlag(detail.discoveryFlag);
+      const digit =
+        gameProgress.getActOneFrequencyDigits()[detail.sequence - 1] ?? "?";
+
+      if (hasRequiredItem) {
+        if (!alreadyDiscovered) {
+          gameProgress.discoverActOneFrame(
+            object.id,
+            detail.sequence,
+            digit,
+          );
+          const addedFlags = gameProgress.addFlags([detail.discoveryFlag]);
+          publishStoryProgress(addedFlags);
+          const derivedFlags = syncActOneProgression();
+          emitGameEvent("progress:notify", {
+            id: `hidden-digit-${object.id}-${Date.now()}`,
+            label: "número oculto encontrado",
+            title: `${digit} · marca ${detail.mark}`,
+            detail: "Pista adicionada ao diário.",
+            tone: "clue",
+          });
+          if (derivedFlags.includes("discovered_radio_frequency")) {
+            emitGameEvent("progress:notify", {
+              id: `frequency-complete-${Date.now()}`,
+              label: "frequência descoberta",
+              title: `${gameProgress.getActOneFrequency().toFixed(1)} MHz`,
+              detail: "Ajuste o dial do rádio usando a sequência I, II e III.",
+              tone: "transmission",
+            });
+          }
+          showStoryThought("first-hidden-digit");
+          showStoryThought("frequency-discovered");
+        }
+        this.refreshInteractionVisuals();
+        this.persistCurrentPosition();
+        this.openFrameInspection(
+          object,
+          `A lupa revela um número quase apagado junto da marca ${detail.mark}.`,
+          digit,
+        );
+        return;
+      }
+
+      this.openFrameInspection(
+        object,
+        "A imagem e a moldura possuem riscos muito pequenos. A olho nu, parecem apenas desgaste.",
+      );
+      return;
+    }
+
+    if (
+      object.requiredFlags?.length &&
+      !gameProgress.hasAll(object.requiredFlags) &&
+      object.blockedDialogueId
+    ) {
+      this.getDialogueScene().startDialogue(object.blockedDialogueId);
+      return;
+    }
+
     if (object.targetMapId && object.targetPosition) {
       this.handleTransitionObject(object, false);
       return;
@@ -818,11 +961,24 @@ export class WorldScene extends Phaser.Scene {
     const dialogueId = resolveDialogueId(object.dialogueId, object.dialogueVariants);
 
     if (dialogueId) {
+      if (object.grantsItems?.length) {
+        obtainInventoryItems(object.grantsItems);
+        this.objectSprites.get(object.id)?.setVisible(false);
+        this.interactionMarkers.get(object.id)?.setVisible(false);
+        this.interactionGlows.get(object.id)?.setVisible(false);
+        this.interactables = this.interactables.filter(
+          (candidate) => candidate.id !== object.id,
+        );
+        showStoryThought("magnifier-found");
+      }
       this.getDialogueScene().startDialogue(dialogueId, object.setFlagsOnInteraction);
     }
   }
 
   private handleDialogueClosed() {
+    syncActOneProgression();
+    showStoryThought("backpacks-missing");
+    this.refreshInteractionVisuals();
     const rescuedCaioNow = gameProgress.hasFlag("rescued_caio");
     const foundTunnelNow = gameProgress.hasFlag("found_tunnel");
     const basementLayoutChanged =
@@ -859,6 +1015,9 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private getObjectTexture(object: InteractiveObjectDefinition) {
+    if (object.hiddenDetail) {
+      return "story-photo";
+    }
     if (object.id === "garden-crystal" && gameProgress.hasFlag("awakened_crystal")) {
       return "crystal-on";
     }
@@ -872,6 +1031,116 @@ export class WorldScene extends Phaser.Scene {
     }
 
     return object.spriteKey;
+  }
+
+  private getInteractionVisualMode(
+    id: string,
+    object?: InteractiveObjectDefinition,
+  ): "completed" | "important" | "new" | "seen" {
+    if (
+      object?.id === "living-radio" &&
+      gameProgress.hasFlag("solved_radio_dial_caio")
+    ) {
+      return "completed";
+    }
+
+    if (
+      object?.id === "living-radio" &&
+      ((gameProgress.hasFlag("noticed_disappearance") &&
+        !gameProgress.hasFlag("examined_radio")) ||
+        (gameProgress.hasFlag("discovered_radio_frequency") &&
+          !gameProgress.hasFlag("solved_radio_dial_caio")))
+    ) {
+      return "important";
+    }
+
+    const photoCompletionFlags = {
+      "bedroom-photo": "found_photo_fragment_bedroom",
+      "living-photo": "found_photo_fragment_living",
+      "kitchen-photo": "found_photo_fragment_kitchen",
+    } as const;
+    const photoFlag =
+      object?.id && object.id in photoCompletionFlags
+        ? photoCompletionFlags[object.id as keyof typeof photoCompletionFlags]
+        : undefined;
+
+    if (photoFlag && gameProgress.hasFlag(photoFlag)) {
+      return "completed";
+    }
+
+    if (photoFlag && !gameProgress.hasFlag("heard_caio_signal")) {
+      return "completed";
+    }
+
+    if (
+      photoFlag &&
+      gameProgress.hasFlag("heard_caio_signal") &&
+      !gameProgress.hasFlag(photoFlag)
+    ) {
+      return "important";
+    }
+
+    if (
+      object?.id === "kitchen-magnifier" &&
+      gameProgress.hasFlag("started_magnifier_search")
+    ) {
+      return "important";
+    }
+
+    if (
+      object?.hiddenDetail &&
+      gameProgress.hasFlag(object.hiddenDetail.discoveryFlag)
+    ) {
+      return "completed";
+    }
+
+    if (
+      object?.hiddenDetail &&
+      gameProgress.getActiveItemId() === object.hiddenDetail.requiredItemId
+    ) {
+      return "important";
+    }
+
+    if (object?.grantsItems?.some((itemId) => gameProgress.hasItem(itemId))) {
+      return "completed";
+    }
+
+    return gameProgress.hasSeenInteraction(id) ? "seen" : "new";
+  }
+
+  private refreshInteractionVisuals() {
+    this.interactables.forEach((candidate) => {
+      this.setInteractionVisualState(
+        candidate.id,
+        candidate.id === this.activeInteraction?.id,
+      );
+    });
+  }
+
+  private openFrameInspection(
+    object: InteractiveObjectDefinition,
+    detail: string,
+    digit?: string,
+  ) {
+    if (!object.hiddenDetail) {
+      return;
+    }
+
+    this.openStoryOverlay();
+    emitGameEvent("inspection:open", {
+      objectId: object.id,
+      title: object.name,
+      imageUrl: publicAssetPath(
+        `assets/game/clues/frames/frame-digit-${
+          gameProgress.getActOneFrequencyDigits()[
+            object.hiddenDetail.sequence - 1
+          ]
+        }.png`,
+      ),
+      detail,
+      mark: digit ? object.hiddenDetail.mark : undefined,
+      digit,
+    });
   }
 
   private getPrompt(interaction: InteractionCandidate<WorldInteractable>) {
@@ -960,6 +1229,7 @@ export class WorldScene extends Phaser.Scene {
   private closeStoryOverlay() {
     this.registry.set("storyOverlayOpen", false);
     this.refreshObjectTextures();
+    this.refreshInteractionVisuals();
     this.persistCurrentPosition();
     this.publishStatus(this.activeInteraction ? this.getPrompt(this.activeInteraction) : "");
   }

@@ -15,7 +15,11 @@ export function getRadioState(
     return null;
   }
 
-  const difference = Math.abs(frequency - transmission.frequency);
+  const targetFrequency =
+    transmissionId === "caio-first-signal"
+      ? gameProgress.getActOneFrequency()
+      : transmission.frequency;
+  const difference = Math.abs(frequency - targetFrequency);
   const signalQuality = Math.max(0, Math.min(1, 1 - difference / 3.5));
   const solved = gameProgress.hasAll(transmission.unlockFlags);
 
@@ -42,7 +46,10 @@ export function getRadioState(
 export function tuneTransmission(transmissionId: string, frequency: number) {
   const transmission = storyTransmissions[transmissionId];
   const puzzle = transmission ? storyPuzzles[transmission.relatedPuzzleId] : undefined;
-  const target = puzzle?.solution?.frequency;
+  const target =
+    transmissionId === "caio-first-signal"
+      ? gameProgress.getActOneFrequency()
+      : puzzle?.solution?.frequency;
   const tolerance = puzzle?.solution?.tolerance ?? 0.05;
   const access = puzzle ? getPuzzleAccess(puzzle.id) : null;
 

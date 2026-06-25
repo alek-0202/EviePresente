@@ -7,6 +7,7 @@ import {
 import { emitGameEvent } from "../systems/gameEventBus";
 import { publishStoryProgress } from "../systems/storyProgressSystem";
 import { showStoryThought } from "../systems/thoughtSystem";
+import { saveProgressSnapshot } from "../systems/saveSystem";
 import styles from "./RadioPanel.module.css";
 
 type RadioPanelProps = {
@@ -47,6 +48,7 @@ export function RadioPanel({ transmissionId }: RadioPanelProps) {
       setFeedback("Sinal estabilizado. Transmissão registrada no diário.");
       emitGameEvent("radio:changed", result.state);
       publishStoryProgress(result.addedFlags);
+      saveProgressSnapshot();
       return;
     }
 

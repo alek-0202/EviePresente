@@ -3,6 +3,20 @@ import type { JournalEntryDefinition } from "./story.types";
 
 export const journalEntries: JournalEntryDefinition[] = [
   {
+    id: "clue-disappearance",
+    category: "clue",
+    title: "O desaparecimento",
+    body: "Camas, mochilas e uma partida interrompida indicam que ninguém deixou a cabana por vontade própria.",
+    requiredFlags: ["noticed_disappearance"],
+  },
+  {
+    id: "item-magnifier",
+    category: "clue",
+    title: "A lupa",
+    body: "Uma lupa esquecida na cozinha revela riscos pequenos demais para serem vistos normalmente.",
+    requiredFlags: ["found_magnifying_glass"],
+  },
+  {
     id: "clue-empty-cabin",
     category: "clue",
     title: "A cabana vazia",
@@ -41,7 +55,7 @@ export const journalEntries: JournalEntryDefinition[] = [
   {
     id: "transmission-caio",
     category: "transmission",
-    title: "98.5 — Caio",
+    title: "Sinal de Caio",
     body: "Não são oito da manhã. São três da madrugada. Eles foram levados. Encontre as fotos. Porão.",
     requiredFlags: ["heard_caio_signal"],
     characterId: "caio",

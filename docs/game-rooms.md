@@ -57,10 +57,11 @@ while dialogue text lives in `src/game/data/dialogues.ts`.
 
 Normal sandbox interactions should not set flags or require items.
 
-`WorldScene` automatically adds a pulsing `!` and floor glow to every visible
-interactive object and NPC. Doors and portals also receive a destination label
-derived from the target map title, so new transitions do not need duplicated
-label text.
+`WorldScene` automatically derives a persistent interaction state for every
+visible object and NPC. New interactions use a bright `!`, seen interactions
+use a dim dot, currently relevant clues use a gold `!`, and completed clues
+hide their marker. Doors and portals receive a destination label derived from
+the target map title.
 
 Indoor floors are currently rendered as procedural wooden planks, while
 mystery rooms use staggered stone slabs. Decorative `spark` entries render as

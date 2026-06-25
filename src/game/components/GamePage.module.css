@@ -157,7 +157,8 @@
 }
 
 .directionPad button,
-.interactButton {
+.interactButton,
+.inventoryButton {
   width: 3.25rem;
   height: 3.25rem;
   border: 3px solid #2d263b;
@@ -198,6 +199,17 @@
     0 5px 0 #171222,
     inset -4px -4px 0 #c47a6f,
     inset 4px 4px 0 #ffe9a8;
+}
+
+.inventoryButton {
+  width: 3.4rem;
+  height: 3.4rem;
+  color: #2d263b;
+  background: #bda4d0;
+  box-shadow:
+    0 5px 0 #171222,
+    inset -4px -4px 0 #806278,
+    inset 4px 4px 0 #e4d1ef;
 }
 
 @keyframes gameIn {

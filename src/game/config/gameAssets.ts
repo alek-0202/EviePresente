@@ -103,4 +103,14 @@ export const gameAssets: GameAssetDefinition[] = [
     type: "image",
     url: publicAssetPath("assets/Tilesets/Wooden House.png"),
   },
+  {
+    key: "story-magnifier",
+    type: "image",
+    url: publicAssetPath("assets/game/items/magnifying-glass.png"),
+  },
+  ...Array.from({ length: 10 }, (_, digit) => ({
+    key: `frame-digit-${digit}` as GameAssetKey,
+    type: "image" as const,
+    url: publicAssetPath(`assets/game/clues/frames/frame-digit-${digit}.png`),
+  })),
 ];

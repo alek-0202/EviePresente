@@ -167,7 +167,14 @@ export type ProgressNotificationViewModel = {
   label: string;
   title: string;
   detail?: string;
-  tone: "ability" | "area" | "clue" | "objective" | "rescue" | "transmission";
+  tone:
+    | "ability"
+    | "area"
+    | "clue"
+    | "item"
+    | "objective"
+    | "rescue"
+    | "transmission";
 };
 
 export type StoryRoomConnection = {

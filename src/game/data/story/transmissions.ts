@@ -12,9 +12,10 @@ export const storyTransmissions: Record<string, StoryTransmissionDefinition> = {
     decodedText:
       "Se você está ouvindo isso, não são oito da manhã. São três da madrugada. Eles não saíram. Eles foram levados. Encontre as fotos. Porão. Siga as fotos.",
     requiredFlags: [
-      "inspected_backpacks",
       "examined_radio",
-      "inspected_fireplace",
+      "found_magnifying_glass",
+      "equipped_magnifying_glass",
+      "discovered_radio_frequency",
     ],
     unlockFlags: ["heard_caio_signal", "solved_radio_dial_caio"],
     relatedPuzzleId: "radio-dial-caio",

@@ -53,6 +53,13 @@
   background: #ffe09a;
 }
 
+.item {
+  background: #e7c6ff;
+  box-shadow:
+    5px 5px 0 rgba(23, 18, 34, 0.72),
+    inset -4px -4px 0 #9a78ad;
+}
+
 @keyframes toastIn {
   from {
     opacity: 0;

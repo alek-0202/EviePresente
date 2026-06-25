@@ -6,20 +6,40 @@ export const gamePuzzles: PuzzleDefinition[] = [
     title: "O Despertar Solitário",
     steps: [
       {
-        flag: "inspected_backpacks",
-        objective: "Examine a cabana e descubra o que foi deixado para trás.",
-      },
-      {
-        flag: "inspected_fireplace",
-        objective: "Procure na sala uma pista que limite a frequência do rádio.",
+        flag: "noticed_disappearance",
+        objective: "Acorde e examine o quarto e a sala da cabana.",
       },
       {
         flag: "examined_radio",
-        objective: "Examine o rádio antigo na sala principal.",
+        objective: "Descubra por que todos desapareceram e investigue o rádio antigo.",
+      },
+      {
+        flag: "found_magnifying_glass",
+        objective: "Procure uma lupa nos cômodos liberados da cabana.",
+      },
+      {
+        flag: "equipped_magnifying_glass",
+        objective: "Abra a mochila com B e equipe a lupa.",
+      },
+      {
+        flag: "discovered_radio_digit_one",
+        objective: "Use a lupa no quadro da estrada, no quarto.",
+      },
+      {
+        flag: "discovered_radio_digit_two",
+        objective: "Use a lupa no quadro da cabana, na sala principal.",
+      },
+      {
+        flag: "discovered_radio_digit_three",
+        objective: "Use a lupa no quadro da floresta, no corredor.",
+      },
+      {
+        flag: "discovered_radio_frequency",
+        objective: "Organize os três números pelas marcas I, II e III.",
       },
       {
         flag: "solved_radio_dial_caio",
-        objective: "Ajuste o rádio e limpe a transmissão impossível.",
+        objective: "Ajuste o rádio usando a frequência descoberta.",
       },
       {
         flag: "found_photo_fragment_bedroom",
@@ -53,6 +73,13 @@ export const gamePuzzles: PuzzleDefinition[] = [
         flag: "rescued_caio",
         objective: "Fale com Caio agora que as três inconsistências foram encontradas.",
       },
+    ],
+    completionFlags: ["rescued_caio"],
+  },
+  {
+    id: "last-transmission-act-two-opening",
+    title: "Força Bruta",
+    steps: [
       {
         flag: "found_tunnel",
         objective: "Use a memória de Caio na parede leste do porão.",

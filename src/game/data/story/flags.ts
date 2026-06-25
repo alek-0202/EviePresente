@@ -2,7 +2,15 @@ import type { GameFlag } from "../../types/game.types";
 
 export const actOneFlags = [
   "started_last_transmission",
+  "noticed_disappearance",
   "examined_radio",
+  "started_magnifier_search",
+  "found_magnifying_glass",
+  "equipped_magnifying_glass",
+  "discovered_radio_digit_one",
+  "discovered_radio_digit_two",
+  "discovered_radio_digit_three",
+  "discovered_radio_frequency",
   "heard_caio_signal",
   "solved_radio_dial_caio",
   "found_photo_fragment_bedroom",
